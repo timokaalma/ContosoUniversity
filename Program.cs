@@ -1,13 +1,13 @@
 using ContosoUniversity.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<SchoolContext>(options =>
@@ -33,7 +33,7 @@ app.MapControllerRoute(
 app.Run();
 
 
-static void CreateDbIfNotExists(IHost host)
+ static void CreateDbIfNotExists(IHost host)
 {
     using (var scope = host.Services.CreateScope())
     {
