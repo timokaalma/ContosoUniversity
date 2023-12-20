@@ -75,7 +75,7 @@ namespace ContosoUniversity.Controllers
         // GET: Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null
+            if (id == null)
             {
                 return NotFound();
             }
@@ -133,9 +133,10 @@ namespace ContosoUniversity.Controllers
                                    orderby d.Name
                                    select d;
             ViewBag.DepartmentID = new SelectList(departmentsQuery.AsNoTracking(), "DepartmentID", "Name", selectedDepartment);
+        }
 
-            // GET: Courses/Delete/5
-            public async Task<IActionResult> Delete(int? id)
+        // GET: Courses/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Courses == null)
             {
@@ -168,14 +169,14 @@ namespace ContosoUniversity.Controllers
             {
                 _context.Courses.Remove(course);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CourseExists(int id)
         {
-          return (_context.Courses?.Any(e => e.CourseID == id)).GetValueOrDefault();
+            return (_context.Courses?.Any(e => e.CourseID == id)).GetValueOrDefault();
         }
     }
 }
