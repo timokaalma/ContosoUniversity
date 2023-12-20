@@ -21,10 +21,10 @@ namespace ContosoUniversity.Controllers
 
         // GET: Students
         public async Task<IActionResult> Index(
-            string sortOrder,
-            string currentFilter,
-            string searchString,
-            int? pageNumber)
+    string sortOrder,
+    string currentFilter,
+    string searchString,
+    int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -39,7 +39,6 @@ namespace ContosoUniversity.Controllers
                 searchString = currentFilter;
             }
 
-
             ViewData["CurrentFilter"] = searchString;
 
             var students = from s in _context.Students
@@ -49,7 +48,6 @@ namespace ContosoUniversity.Controllers
                 students = students.Where(s => s.LastName.Contains(searchString)
                                        || s.FirstMidName.Contains(searchString));
             }
-
             switch (sortOrder)
             {
                 case "name_desc":
@@ -65,6 +63,7 @@ namespace ContosoUniversity.Controllers
                     students = students.OrderBy(s => s.LastName);
                     break;
             }
+
             int pageSize = 3;
             return View(await PaginatedList<Student>.CreateAsync(students.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
@@ -78,10 +77,11 @@ namespace ContosoUniversity.Controllers
             }
 
             var student = await _context.Students
-                 .Include(s => s.Enrollments)
-                    .ThenInclude(e => e.Course)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
+            .Include(s => s.Enrollments)
+                .ThenInclude(e => e.Course)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.ID == id);
+
             if (student == null)
             {
                 return NotFound();
@@ -220,7 +220,11 @@ namespace ContosoUniversity.Controllers
                 //Log the error (uncomment ex variable name and write a log.)
                 return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
             }
+        }
 
+        private bool StudentExists(int id)
+        {
+            return (_context.Students?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }
