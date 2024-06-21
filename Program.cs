@@ -1,5 +1,7 @@
 using ContosoUniversity.Data;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ContosoUniversity
 {
